@@ -34,7 +34,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir('./') { // Root directory
-                        sh 'mvn sonar:sonar'
+                        sh 'mvn -Dsonar.verbose=true sonar:sonar'
                     }
                 }
             }
