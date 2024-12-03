@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Cyclomatic Complexity') {
             steps {
-                sh '/path/to/virtualenv/bin/lizard src/main/java > complexity-report.txt'
+                sh '/home/nehadhama010/lizard_env/bin/lizard src/main/java > complexity-report.txt'
             }
             post {
                 always {
