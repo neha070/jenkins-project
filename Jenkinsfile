@@ -34,11 +34,12 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir('./') { // Root directory
-                        // sh 'mvn -Dsonar.verbose=true sonar:sonar'
-                        mvn clean verify sonar:sonar \
-                       -Dsonar.projectKey=jenkins-project \
-                       -Dsonar.host.url=http://34.56.102.242:9000 \
-                       -Dsonar.login=sqp_e5c47caca6ccfd2c1840559e947dca707566f3fe
+                        sh '''
+                            mvn clean verify sonar:sonar \
+                                -Dsonar.projectKey=jenkins-project \
+                                -Dsonar.host.url=http://34.56.102.242:9000 \
+                                -Dsonar.login=sqp_e5c47caca6ccfd2c1840559e947dca707566f3fe
+                        '''
                     }
                 }
             }
