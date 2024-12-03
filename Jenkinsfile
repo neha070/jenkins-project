@@ -6,6 +6,7 @@ pipeline {
     environment {
         SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
     }
+    stages {
         stage('Checkout') {
             steps {
                 cleanWs()
