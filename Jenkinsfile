@@ -46,9 +46,11 @@ pipeline {
         }
         stage('Quality Gate') {
             steps {
-                waitForQualityGate timeout: '30' // Timeout in minutes
-
-
+                script {
+                    timeout(time: 30, unit: 'MINUTES') { // Set timeout for Quality Gate stage
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
         }
         stage('Code Coverage') {
