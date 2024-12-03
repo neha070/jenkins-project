@@ -17,6 +17,18 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('Cyclomatic Complexity') {
+            steps {
+                // Run Lizard to analyze cyclomatic complexity and save the output to a report
+                sh 'lizard src/main/java > complexity-report.txt'
+            }
+            post {
+                always {
+                    // Archive the complexity report for review
+                    archiveArtifacts artifacts: 'complexity-report.txt', allowEmptyArchive: true
+                }
+            }
+        }
         stage('Code Quality Check') {
             steps {
                 withSonarQubeEnv('SonarQube') {  // 'SonarQube' is the name of your configured SonarQube server
