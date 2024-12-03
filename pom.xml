@@ -9,7 +9,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <!-- Replace localhost with your actual SonarQube server IP or domain -->
-        <sonar.host.url>http://http://34.56.102.242/:9000</sonar.host.url>
+        <sonar.host.url>http://34.56.102.242/:9000</sonar.host.url>
     </properties>
 
     <dependencies>
