@@ -1,10 +1,10 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven'  // Configure Maven in Jenkins
+        maven 'Maven'
     }
     environment {
-        SONAR_TOKEN = credentials('sonar-token')  // Replace 'sonar-token' with the actual credentials ID in Jenkins
+        SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
     }
     stages {
         stage('Checkout') {
@@ -14,25 +14,27 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                    sh 'mvn clean package'
+                }
             }
         }
         stage('Cyclomatic Complexity') {
             steps {
-                // Run Lizard to analyze cyclomatic complexity and save the output to a report
                 sh 'lizard src/main/java > complexity-report.txt'
             }
             post {
                 always {
-                    // Archive the complexity report for review
                     archiveArtifacts artifacts: 'complexity-report.txt', allowEmptyArchive: true
                 }
             }
         }
         stage('Code Quality Check') {
             steps {
-                withSonarQubeEnv('SonarQube') {  // 'SonarQube' is the name of your configured SonarQube server
-                    sh 'mvn sonar:sonar'
+                withSonarQubeEnv('SonarQube') {
+                    dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                        sh 'mvn sonar:sonar'
+                    }
                 }
             }
         }
@@ -43,12 +45,16 @@ pipeline {
         }
         stage('Code Coverage') {
             steps {
-                jacoco execPattern: '**/target/*.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
+                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                    jacoco execPattern: '**/target/*.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
+                }
             }
         }
         stage('Security Scan') {
             steps {
-                sh 'mvn org.owasp:dependency-check-maven:check'
+                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                    sh 'mvn org.owasp:dependency-check-maven:check'
+                }
             }
             post {
                 always {
