@@ -22,11 +22,11 @@ pipeline {
         }
         stage('Cyclomatic Complexity') {
             steps {
-                sh 'lizard src/main/java > complexity-report.txt'
+                sh '/path/to/virtualenv/bin/lizard src/main/java > complexity-report.txt'
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'complexity-report.txt', allowEmptyArchive: true
+                   archiveArtifacts artifacts: 'complexity-report.txt', allowEmptyArchive: true
                 }
             }
         }
