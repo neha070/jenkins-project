@@ -6,12 +6,12 @@ pipeline {
     environment {
         SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
     }
-    stages {
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+        steps {
+            cleanWs()
+            checkout scm
         }
+    }
         stage('Build') {
             steps {
                 dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
