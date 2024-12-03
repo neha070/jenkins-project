@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                dir('./') { // Root directory where pom.xml is located
                     sh 'mvn clean package'
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
         stage('Code Quality Check') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                    dir('./') { // Root directory
                         sh 'mvn sonar:sonar'
                     }
                 }
@@ -46,14 +46,14 @@ pipeline {
         }
         stage('Code Coverage') {
             steps {
-                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                dir('./') { // Root directory
                     jacoco execPattern: '**/target/*.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
                 }
             }
         }
         stage('Security Scan') {
             steps {
-                dir('src/test/java/com/example') { // Navigate to the directory containing pom.xml
+                dir('./') { // Root directory
                     sh 'mvn org.owasp:dependency-check-maven:check'
                 }
             }
