@@ -60,6 +60,12 @@ pipeline {
                 }
             }
         }
+        stage('Security Scan') {
+            steps {
+                sh 'dependency-check.sh --project "MyProject" --scan ./src'
+                archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+            }
+        }
 //         stage('Security Scan') {
 //             agent {
 //                 docker {
