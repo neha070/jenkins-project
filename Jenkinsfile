@@ -62,17 +62,15 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                // ?dir('./') { // Root directory
-                    sh '''
-                        docker run --rm \
-                            -v $(pwd):/src \
-                            -v $(pwd)/dependency-check:/report \
-                            owasp/dependency-check \
-                            --scan /src --out /report --format HTML
-                    '''
-                    archiveArtifacts artifacts: 'dependency-check/*', allowEmptyArchive: true
-             }
-        }
+                sh '''
+                    docker run --rm \
+                        -v $(pwd):/src \
+                        -v $(pwd)/dependency-check:/report \
+                        owasp/dependency-check \
+                        --scan /src --out /report --format HTML
+                '''
+                archiveArtifacts artifacts: 'dependency-check/*', allowEmptyArchive: true
+            }
             post {
                 always {
                     archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
