@@ -5,9 +5,9 @@ pipeline {
     }
     environment {
         SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
-        SONAR_PROJECT_KEY = credentials('github-sonar-project-key') // Replace with Jenkins credential ID
-        SONAR_HOST_URL = credentials('github-sonar-host-url')      // Replace with Jenkins credential ID
-        SONAR_LOGIN = credentials('github-sonar-login')
+        SONAR_PROJECT_KEY = credentials('github-sonar-project-key') // Check if this exists
+        SONAR_HOST_URL = credentials('github-sonar-host-url')       // Check if this exists
+        SONAR_LOGIN = credentials('github-sonar-login') 
     }
     stages {
         stage('Checkout') {
