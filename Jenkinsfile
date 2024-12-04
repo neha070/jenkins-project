@@ -63,9 +63,9 @@ pipeline {
         stage('Security Scan') {
             steps {
                 script {
-                    // Run Trivy
+                    // Run Trivy scan and generate JSON and HTML reports
                     sh 'trivy fs --exit-code 1 --severity HIGH --format json --output trivy-report.json ./src'
-                    sh 'trivy fs --exit-code 1 --severity HIGH --format template --template "@contrib/html.tpl" --output trivy-report.html ./src'
+                    sh 'trivy fs --exit-code 1 --severity HIGH --format template --template /home/nehadhama010/templates/html.tpl --output trivy-report.html ./src'
                 }
             }
             post {
@@ -73,7 +73,7 @@ pipeline {
                     // Archive Reports
                     archiveArtifacts artifacts: 'trivy-report.json, trivy-report.html', allowEmptyArchive: true
         
-                    // Optional: Publish HTML Report
+                    // Publish HTML Report
                     publishHTML(target: [
                         allowMissing: true,
                         alwaysLinkToLastBuild: true,
