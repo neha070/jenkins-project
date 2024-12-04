@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:20.10.24' // Ensure a specific Docker version for consistent behavior
-        }
-    }
+    agent any
     tools {
         maven 'Maven'
     }
@@ -65,13 +61,18 @@ pipeline {
             }
         }
         stage('Security Scan') {
+            agent {
+                docker {
+                    image 'owasp/dependency-check:latest' // Use the Docker image for OWASP Dependency Check
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src -v $(pwd)/dependency-check:/report'
+                }
+            }
             steps {
                 sh '''
-                    docker run --rm \
-                        -v $(pwd):/src \
-                        -v $(pwd)/dependency-check:/report \
-                        owasp/dependency-check:latest \
-                        --scan /src --out /report --format HTML
+                    dependency-check.sh \
+                        --scan /src \
+                        --out /report \
+                        --format HTML
                 '''
             }
             post {
