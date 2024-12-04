@@ -85,40 +85,5 @@ pipeline {
                 }
             }
         }
-
-//         stage('Security Scan') {
-//             agent {
-//                 docker {
-//                     image 'owasp/dependency-check:latest' // Use the Docker image for OWASP Dependency Check
-//                     args '-v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/src -v $(pwd)/dependency-check:/report'
-//                 }
-//             }
-//             steps {
-//                 sh '''
-//                     dependency-check.sh \
-//                         --scan /src \
-//                         --out /report \
-//                         --format HTML
-//                 '''
-//             }
-//             post {
-//                 always {
-//                     archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
-//                 }
-//             }
-//         }
-//     }
-//     post {
-//         success {
-//             mail to: 'nehadhama010@gmail.com',
-//                  subject: "Jenkins Build Success - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-//                  body: "The build ${env.JOB_NAME} #${env.BUILD_NUMBER} was successful."
-//         }
-//         failure {
-//             mail to: 'nehadhama010@gmail.com',
-//                  subject: "Jenkins Build Failure - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-//                  body: "The build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed. Please check Jenkins for more details."
-//         }
-//     }
 }
 }
