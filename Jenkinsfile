@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:20.10.24' // Ensure a specific Docker version for consistent behavior
+        }
+    }
     tools {
         maven 'Maven'
     }
@@ -66,14 +70,13 @@ pipeline {
                     docker run --rm \
                         -v $(pwd):/src \
                         -v $(pwd)/dependency-check:/report \
-                        owasp/dependency-check \
+                        owasp/dependency-check:latest \
                         --scan /src --out /report --format HTML
                 '''
-                archiveArtifacts artifacts: 'dependency-check/*', allowEmptyArchive: true
             }
             post {
                 always {
-                    archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'dependency-check-report.html', allowEmptyArchive: true
                 }
             }
         }
