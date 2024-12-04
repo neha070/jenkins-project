@@ -94,4 +94,4 @@ pipeline {
 //                  body: "The build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed. Please check Jenkins for more details."
 //         }
 //     }
-// }
+}
