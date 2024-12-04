@@ -5,6 +5,9 @@ pipeline {
     }
     environment {
         SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
+        SONAR_PROJECT_KEY = credentials('github-sonar-project-key') // Replace with Jenkins credential ID
+        SONAR_HOST_URL = credentials('github-sonar-host-url')      // Replace with Jenkins credential ID
+        SONAR_LOGIN = credentials('github-sonar-login')
     }
     stages {
         stage('Checkout') {
@@ -36,9 +39,9 @@ pipeline {
                     dir('./') { // Root directory
                         sh '''
                             mvn sonar:sonar \
-                                -Dsonar.projectKey=jenkins-project \
-                                -Dsonar.host.url=http://34.56.102.242:9000/ \
-                                -Dsonar.login=sqp_e5c47caca6ccfd2c1840559e947dca707566f3fe
+                                -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+                                -Dsonar.host.url=$SONAR_HOST_URL \
+                                -Dsonar.login=$SONAR_LOGIN
                         '''
                     }
                 }
