@@ -62,7 +62,27 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                sh 'trivy fs --exit-code 1 --severity HIGH ./src'
+                script {
+                    // Run Trivy
+                    sh 'trivy fs --exit-code 1 --severity HIGH --format json --output trivy-report.json ./src'
+                    sh 'trivy fs --exit-code 1 --severity HIGH --format template --template "@contrib/html.tpl" --output trivy-report.html ./src'
+                }
+            }
+            post {
+                always {
+                    // Archive Reports
+                    archiveArtifacts artifacts: 'trivy-report.json, trivy-report.html', allowEmptyArchive: true
+        
+                    // Optional: Publish HTML Report
+                    publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: '.',
+                        reportFiles: 'trivy-report.html',
+                        reportName: 'Trivy Vulnerability Report'
+                    ])
+                }
             }
         }
 
