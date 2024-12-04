@@ -4,10 +4,10 @@ pipeline {
         maven 'Maven'
     }
     environment {
-        SONAR_TOKEN = credentials('sonar-token') // Replace with your credential ID
-        SONAR_PROJECT_KEY = credentials('github-sonar-project-key') // Check if this exists
-        SONAR_HOST_URL = credentials('github-sonar-host-url')       // Check if this exists
-        SONAR_LOGIN = credentials('github-sonar-login') 
+        SONAR_TOKEN = credentials('sonar-token')
+        SONAR_PROJECT_KEY = credentials('SONAR_PROJECT_KEY')
+        SONAR_HOST_URL = credentials('SONAR_HOST_URL')
+        SONAR_LOGIN = credentials('SONAR_LOGIN')
     }
     stages {
         stage('Checkout') {
