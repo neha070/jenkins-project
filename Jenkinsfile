@@ -62,10 +62,10 @@ pipeline {
         }
         stage('Security Scan') {
             steps {
-                sh 'dependency-check.sh --project "MyProject" --scan ./src'
-                archiveArtifacts artifacts: '**/dependency-check-report.html', allowEmptyArchive: true
+                sh 'trivy fs --exit-code 1 --severity HIGH ./src'
             }
         }
+
 //         stage('Security Scan') {
 //             agent {
 //                 docker {
